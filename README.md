@@ -11,7 +11,7 @@ Put a tracking script in your HTML. Listen to the geigier counter-style monitor 
 To build
 --------
 
-    go fetch "code.google.com/p/go.net/websocket"
+    go get "code.google.com/p/go.net/websocket"
     go build
 
 To run
@@ -19,7 +19,7 @@ To run
 
     ./geigor <port number> <option>*
 
-You can use supervisor to keep this running on your server.
+You can use supervisor to keep this running on your server. There is a sample config file at etc/supervisor/geigor.conf
 
 Options are:
 

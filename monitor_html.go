@@ -37,7 +37,7 @@ var MONITOR_HTML string = `<html>
 
             count = document.getElementById("count");
 
-            var socket = new WebSocket("ws://localhost:{{.Port}}/monitor-endpoint");
+            var socket = new WebSocket("ws://" + window.location.hostname +  ":{{.Port}}/monitor-endpoint");
             socket.onmessage = function(message, x) {
                 lastSecond = parseInt(message.data, 10);
 
