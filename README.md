@@ -20,7 +20,21 @@ To build
 To run
 ------
 
-    ./geigor <port number> <option>*
+You need to supply the 'served from' address, port number, and diagnostic options. The served from address will be the base URL for the host name by default, but if you are using a proxy server, this might be different.
+
+    ./geigor <served_from> <port number> <option>*
+
+
+e.g. default:
+
+    ./geigor http://mydomain.com 9319 index demo
+
+
+or, if you're proxying
+
+
+    ./geigor http://mydomain.com/geigor 80 index demo
+
 
 You can use supervisor to keep this running on your server. There is a sample config file at etc/supervisor/geigor.conf
 

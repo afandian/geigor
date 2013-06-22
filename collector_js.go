@@ -2,7 +2,7 @@ package main
 
 var COLLECTOR_JS string = `
 
-var endpoint = "collector-endpoint";
+var endpoint = "{{.ServedFrom}}/collector-endpoint";
 var period = 10;
 
 var request = null;

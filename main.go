@@ -14,14 +14,16 @@ import (
 var monitorHtmlBuffer *bytes.Buffer = &bytes.Buffer{}
 var indexBuffer *bytes.Buffer
 var demoBuffer *bytes.Buffer
-var collectorJsBuffer *bytes.Buffer
+var collectorJsBuffer *bytes.Buffer = &bytes.Buffer{}
 
 // Config
 var portNumber string
+var servedFrom string
 
 // Template args
 type HtmlConfig struct {
-	Port string
+	Port       string
+	ServedFrom string
 }
 
 // Concurrent bits.
@@ -135,19 +137,38 @@ func tickServer(ws *websocket.Conn) {
 }
 
 func monitor(response http.ResponseWriter, r *http.Request) {
-	response.Write(monitorHtmlBuffer.Bytes())
+	_, err := response.Write(monitorHtmlBuffer.Bytes())
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 func index(response http.ResponseWriter, r *http.Request) {
-	response.Write(indexBuffer.Bytes())
+	_, err := response.Write(indexBuffer.Bytes())
+
+	if err != nil {
+		panic(err)
+	}
+
 }
 
 func demo(response http.ResponseWriter, r *http.Request) {
-	response.Write(demoBuffer.Bytes())
+	_, err := response.Write(demoBuffer.Bytes())
+
+	if err != nil {
+		panic(err)
+	}
+
 }
 
 func collectorJs(response http.ResponseWriter, r *http.Request) {
-	response.Write(collectorJsBuffer.Bytes())
+	_, err := response.Write(collectorJsBuffer.Bytes())
+
+	if err != nil {
+		panic(err)
+	}
+
 }
 
 func collectorEndpoint(response http.ResponseWriter, r *http.Request) {
@@ -155,7 +176,7 @@ func collectorEndpoint(response http.ResponseWriter, r *http.Request) {
 }
 
 func printHelp() {
-	fmt.Println("Arguments: <port number> <option>*")
+	fmt.Println("Arguments: <served from> <port number> <option>*")
 	fmt.Println("Options: index, demo")
 }
 
@@ -163,14 +184,17 @@ func printHelp() {
 func main() {
 
 	// Get args.
-	if len(os.Args) < 2 {
+	if len(os.Args) < 3 {
 		printHelp()
 		os.Exit(1)
 	}
 
+	// The full URL where this is served.
+	servedFrom = os.Args[1]
+
 	// Port number is a string as this is passed to the server.
 	// ListenAndServe will throw an error if this is bad.
-	portNumber := os.Args[1]
+	portNumber := os.Args[2]
 
 	// Start the state tracking bits.
 	go ticker()
@@ -194,9 +218,14 @@ func main() {
 	}
 
 	// Render templates.
-	templateConfig := HtmlConfig{portNumber}
+	templateConfig := HtmlConfig{portNumber, servedFrom}
 
-	monitorHtmlTemplate, err := template.New("").Parse(MONITOR_HTML)
+	monitorHtmlTemplate, err := template.New("a").Parse(MONITOR_HTML)
+	if err != nil {
+		panic(err)
+	}
+
+	collectorJsTemplate, err := template.New("b").Parse(COLLECTOR_JS)
 	if err != nil {
 		panic(err)
 	}
@@ -204,7 +233,7 @@ func main() {
 	monitorHtmlTemplate.Execute(monitorHtmlBuffer, templateConfig)
 	indexBuffer = bytes.NewBufferString(INDEX_HTML)
 	demoBuffer = bytes.NewBufferString(DEMO_HTML)
-	collectorJsBuffer = bytes.NewBufferString(COLLECTOR_JS)
+	collectorJsTemplate.Execute(collectorJsBuffer, templateConfig)
 
 	// The endpoint that provides a monitoring websocket.
 	http.Handle("/monitor-endpoint", websocket.Handler(tickServer))
@@ -218,10 +247,10 @@ func main() {
 	// The endpoint that recieves ticks.
 	http.HandleFunc("/collector-endpoint", collectorEndpoint)
 
-	err = http.ListenAndServe(":"+portNumber, nil)
+	err = http.ListenAndServe("0.0.0.0:"+portNumber, nil)
 	if err != nil {
 
-		fmt.Println("Erorr starting server: " + err.Error())
+		fmt.Println("Error starting server: " + err.Error())
 		printHelp()
 		os.Exit(1)
 	}
