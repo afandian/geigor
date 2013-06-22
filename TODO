@@ -1,0 +1,7 @@
+FIX:
+
+ - concurrency of adding/removing synchronisation channels with timer calls in websocketSyncRegister
+
+FEATURES:
+
+ - parameterise tracker code: frequency, events, etc.
