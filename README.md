@@ -1,7 +1,7 @@
 Geigor
 ======
 
-*A Geiger counter written in Go. (Hence the 'go').*
+*A Geiger counter for your website. Written in Go. (Hence the 'go'). Uses WebSockets and WebAudio too, for extra buzzword points.*
 
 Copyright Joe Wass 2013
 joe@afandian.com
