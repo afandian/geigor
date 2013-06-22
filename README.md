@@ -1,7 +1,7 @@
 Geigor
 ======
 
-*A Geiger counter for your website. Written in Go. (Hence the 'go'). Uses WebSockets and WebAudio too, for extra buzzword points.*
+*A Geiger counter written in Go. (Hence the 'go').*
 
 Copyright Joe Wass 2013
 joe@afandian.com
@@ -11,13 +11,15 @@ Put a tracking script in your HTML. Listen to the geigier counter-style monitor 
 To build
 --------
 
-go fetch "code.google.com/p/go.net/websocket"
-go build
+    go fetch "code.google.com/p/go.net/websocket"
+    go build
 
 To run
 ------
 
-./geigor <port number> <option>*
+    ./geigor <port number> <option>*
+
+You can use supervisor to keep this running on your server.
 
 Options are:
 
