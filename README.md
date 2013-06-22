@@ -27,7 +27,7 @@ You need to supply the 'served from' address, port number, and diagnostic option
 
 e.g. default:
 
-    ./geigor http://mydomain.com 9319 index demo
+    ./geigor http://mydomain.com:9319/ 9319 index demo
 
 
 or, if you're proxying
