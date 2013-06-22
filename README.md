@@ -4,6 +4,9 @@ Geigor
 *A Geiger counter written in Go. (Hence the 'go').*
 
 Copyright Joe Wass 2013
+
+MIT License, see LICENSE file.
+
 joe@afandian.com
 
 Put a tracking script in your HTML. Listen to the geigier counter-style monitor to hear activity on your site.
