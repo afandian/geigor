@@ -24,7 +24,8 @@ var tick = function() {
     setTimeout(tick, period * 1000);
 };
 
-tick();
-
+if (request != null) {
+    tick();
+}
 
 `

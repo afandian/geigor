@@ -9,7 +9,7 @@ MIT License, see LICENSE file.
 
 joe@afandian.com
 
-Put a tracking script in your HTML. Listen to the geigier counter-style monitor to hear activity on your site.
+Put a tracking script in your HTML. Listen to the geigier counter-style monitor to hear activity on your site. Install Geigor on your webserver (it's written in Go), start it with Supervisor and off you go. The Geigor tracking should work on any browser, the monitor currently only works on latest versions of FF, Firefox and Safari, see http://caniuse.com/#feat=audio-api .
 
 To build
 --------
