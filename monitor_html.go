@@ -40,6 +40,7 @@ var MONITOR_HTML string = `<html>
             <h2>Geigor tracking</h2>
             <p>Current count: <span id="count">unknown</span>.</p>
             <canvas width="400" height="4" id="canvas-buffer"></canvas>
+            <input type="range" id="ssh" style="width: 50px" max="40"><label for="ssh">vol</label>
             <p class="footnote"><a href="http://afandian.com/geigor">Geigor</a>. This uses HTML5 tech not supported on all browsers. Yet.</p>
         </div>
 
@@ -93,6 +94,12 @@ var MONITOR_HTML string = `<html>
 
             // HTML element to report the current count.
             var count = document.getElementById("count");
+
+            // Ssh.
+            var sshButton = document.getElementById("ssh");
+            sshButton.onchange = function(event) {
+                gain.gain.value = event.target.valueAsNumber;
+            }
 
             // Canvas.
             var canvasBuffer = document.getElementById("canvas-buffer");
@@ -148,7 +155,6 @@ var MONITOR_HTML string = `<html>
             source.start(0);
             source.loop = true;
             source.start(context.currentTime);
-
           }
           catch(e) {
             alert('Web Audio API is not supported in this browser' + e);
